@@ -31,6 +31,11 @@ Globalement, on va partir avec le lien de départ ("https://ensai.fr/") (le seed
 On va utiliser SQLite3 pour  créer une base de données relationnelle simple pour stocker les pages web trouvées (url) ainsi que leur
 âge, date de dernière modification. D'abord, on commence par la création de la table. 
 
+Dans ce programme, les règles sont bien respectés:
+- En utilisant la fonction can_crawl() qui vérifie si le site est interdit au crawler, on peut éviter de visiter et télécharger les pages qui nous l’interdit.
+- On a respecté la politesse en attendant 3 secondes entre chaque appel (sleep(3)) après chaque appel à un site, notamment dans les fonctions can_crawl() et get_sitemaps_links() lorsqu'on appelle pour parser les pages de robots.txt ou sitemaps.xml).
+- On a respecté la politeness en attendant 5 secondes avant de télécharger la page suivante (sleep(5) après avoir crawlé un lien url avec le bloc try dans la fonction run()).
+
 
 ### 4. Limites/ Points à améliorer pour ce travail
 - Ce programme utilise les 'Last Modif' dates disponibles dans les sitemaps.xml pour chaque url. Je n'arrive pas encore à récupérer la date de dernière modification pour n'importe quelle url donnée depuis son html). Pour cette raison, pour les sites en dehors de ces sitemaps, je considère son age comme étant 0
