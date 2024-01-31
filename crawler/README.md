@@ -23,7 +23,7 @@ Dans ce code, on cree une classe Crawler qui détient pour paramètres (attribut
 - max_urls (int):  Le nombre de liens maximum à télécharger 
 - get_sitemaps (bool): Pour indiquer si vous souhaiter lire le fichier sitemap.xml des sites pour réduire les requêtes aux urls
 **Attributs non définis par l'utilisateur:**
-- urls_to_visit (list): List des urls trouvée à visiter
+- urls_to_visit (list): List des urls trouvée à visiter (frontier)
 - start_url (str): Il s'agit d'un seed, l'url de départ
 
 Globalement, on va partir avec le lien de départ ("https://ensai.fr/") (le seed). En partant de ce lien, l'utilisateur peut mettre les paramètres de son choix (détaillé là-dessous). En parcourant les urls dans le frontier (les nouvelles urls sont y ajoutés au fur et à mesure lorsque des nouveaux liens sont découvert dans un page), le programme enregistre les pages trouvées et téléchargées dans un fichier crawled_webpages.txt. Les informations sur ces pages sont aussi stockées dans une base de donnée relationnelle.
@@ -33,6 +33,6 @@ On va utiliser SQLite3 pour  créer une base de données relationnelle simple po
 
 
 ### 4. Limites/ Points à améliorer pour ce travail
-- Ce programme utilise les 'Last Modif' dates disponibles dans les sitemaps.xml pour chaque url. Je n'arrive pas encore à récupérer la date de dernière modification pour n'importe quelle url donnée depuis son html). Pour cette raison, pour les sites en dehors de ces sitemaps, je considère son age étant 0
-- L'âge des pages web n'est pas mis à jour regulièrement dans la base de donnée.
+- Ce programme utilise les 'Last Modif' dates disponibles dans les sitemaps.xml pour chaque url. Je n'arrive pas encore à récupérer la date de dernière modification pour n'importe quelle url donnée depuis son html). Pour cette raison, pour les sites en dehors de ces sitemaps, je considère son age comme étant 0
+
 - La partie Multi threader n'est pas encore réalisée.
