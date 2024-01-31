@@ -105,7 +105,7 @@ class Index():
 
         # Construire un index
         # Filtrer les mots vides et la ponctuation
-        stop_words = set(stopwords.words('english'))
+        stop_words = set(stopwords.words('french'))
         for i in range(n_doc):
 
             documents_df.loc[i,'tokens_title'] = [token.lower() for token in documents_df.loc[i,'tokens_title'] if token.lower() not in stop_words and token.lower() not in string.punctuation]

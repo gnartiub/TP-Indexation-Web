@@ -175,23 +175,26 @@ class Crawler:
         '''
             Cette fonction va lancer le crawler pour les tâches demandées dans le sujet
         '''
-        
+        # On crée un dictionnaire pour stocker les urls et dates trouvés dans les sitemap.xml
         url_date = {}
         if self.get_sitemaps:
-            # Lire le fichier sitemap.xml des sites pour réduire les requêtes aux urls
+            # Lire les fichiers sitemap.xml des sites pour réduire les requêtes aux urls
             sitemaps = self.get_sitemaps_links()
             for sm in sitemaps:
+                # dict_url est un dictionnaire pour stocker les urls et dates trouvés dans un sitemaps, puis on va l'ajouter dans la dictionnaire globale url_date plus tard
                 dict_url  = self.get_info_from_sitemap(sm)
                 for loc in dict_url.keys():
                     self.urls_to_visit.append(loc)
                 url_date.update(dict_url)
 
+        # Boucle pour visiter tous les urls dans le urls_to_visit (frontier) si les conditions sont satisfaites
         while self.urls_to_visit and len(self.visited_urls) < self.max_urls:
             url = self.urls_to_visit.pop(0)
             print(f'Crawling: {url}')
             # Pour gérer des Exceptions qui peuvent être levé durant le processus de crawling et éviter l'arrêt inattendu de code, on va les mettre dans un try bloc
             try:
                 self.crawl(url)
+                # Une fois la page a été crawlée, on va l'ajouter ou la mettre à jours dans la base de donnée
                 last_modified = url_date.get(url) 
                 self.add_or_update_bdd(url, last_modified)
         
