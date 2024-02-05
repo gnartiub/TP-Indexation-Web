@@ -160,7 +160,7 @@ class Crawler:
         # Créer un compteur i pour limiter le nombre de lien maximum à explorer par page
         i = 0
         for url in self.get_linked_urls(url, html):
-            # Vérifier si le nombre maximum a été atteint. Continuer
+            # Vérifier si le nombre maximum a été atteint. Continuer jus
             if i <= self.max_urls_per_page:
                 if url not in self.visited_urls and url not in self.urls_to_visit and self.can_crawl(url):
                     self.urls_to_visit.append(url)
