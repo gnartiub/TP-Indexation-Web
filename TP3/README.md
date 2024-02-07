@@ -27,7 +27,7 @@ Comme les deux TP précédents, on va créer une classe Recherche qui présente 
 - index (dict): l'index
 
 
-Vous trouverez les étapes de processus dans la méthode run(). D'autres méthodes ont été créér pour faciliter la gestion du code.
+Vous trouverez les étapes de processus dans la méthode run(). D'autres méthodes ont été créées pour faciliter la gestion du code.
 
 **a. Chargement des données**
 D'abord, on commence par le chargement des fichiers documents.json et title_pos_index.json/content_pos_index.json (selon votre choix, vous pouvez choisir à rechercher au sein des contenus ou juste des titre, ici on suppose que le système cherche uniquement sur les titres des documents)

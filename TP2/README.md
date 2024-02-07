@@ -29,8 +29,11 @@ En lancant run(), le programme va:
 - Construire l'index
 
 Les urls crawlées sont stockées sous forme d'un Pandas DataFrame pour faciliter le traitement des informations. Chaque ligne correspond à une url (ou document). Les colonnes sont "url", "title", "content", "h1".
- 
+
+Vous trouverez les étapes du processus dans la méthode run() de la classe. Cette méthode est chargée de lancer le processus global de ce TP. D'autres méthodes ont été créées pour faciliter la gestion du code. Les étapes ci-dessous suivent l'ordre dans la méthode run().
+
 **Tokenization**
+La fonction tokenize() de la class Index() va effectuer la tokenization sur l'ensemble des documents, y compris les titres et les contenus.
 Pour chaque url, on utilise la fonction word_tokenize() du paquet nltk pour tokenizer le title et le contenu. Les tokens seront ensuite stockés dans des nouvelles colonnes: tokens_title, tokens_content
 
 **Pour les statistiques**
@@ -50,13 +53,16 @@ Ces statistiques sont stockés sous format d'un dictionaire comme ci-dessous:
             'Avg_tokens_content_per_document': 0
             }
 
+La fonction analyse_stat(doc: pd.DataFrame) a été implémentée pour construire cette analyse statistique sur les documents. Elle retourne la dictionnaire metadata mise à jour.
+
 
 **Pour la construction de l'index title**
 
 Avant créer l'index, on souhaite à filtrer les ponctuations, par exemple: !"#$%&'()*+, -./:;<=>?@[\]^_`{|}~
 Les tokens filtrés seront stockés dans une nouvelle colonnes 'tokens_title_filtered'
-La construction de l'index est faite avec 'self.create_index(documents_df, 'tokens_title_filtered')'
-On parcours tous les documents. Pour chaque token, on crée une liste inversée et on ajoute l'identifiant de Doc dans l’index
+
+La construction de l'index est faite avec la méthode create_index(documents_df, 'tokens_title_filtered') de la classe Index()
+On itère sur tous les documents. Pour chaque token, on crée une liste inversée et on ajoute l'identifiant de Doc dans l’index
 Finalement, l'index obtenu est un dictionnaire comme ci-dessous:
 {
     "token1": [0,3,7,8,10],
@@ -64,13 +70,13 @@ Finalement, l'index obtenu est un dictionnaire comme ci-dessous:
     ...
 }
 
-Si l'utilisateur souhaite appliquer un stemmer (stem = True), le processus de création d'un index est un peu près le même comme précédent. Sauf qu'on applique le stemming à chaque token avant parcourir la liste des tokens de chaque document en faisant 'stemmed_tokens = [stemmer.stem(token) for token in tokens]'
+En utilisant la méthode create_index(), si vous souhaitez appliquer un stemmer (stem = True), le processus de création d'un index est un peu près le même comme précédent. Sauf qu'on applique le stemming à chaque token avant parcourir la liste des tokens de chaque document en faisant 'stemmed_tokens = [stemmer.stem(token) for token in tokens]'
 
 Si l'utilisateur souhaite construire un index positionnel (stem = True), cet index sera stocké dans la variable positional_index = defaultdict()
-De même, on parcours chaque document et stocke les positions de chaque terme dans le document dans le dictionnaire term_positions sous forme: {token : [list_positions]}
-On met à jour l'index positionnel avec les informations du document actuel en parcourant les éléments de dictionnaire term_positions: positional_index[token][doc_id]["position"] = list_positions
+De même, on parcourt chaque document et stocke les positions de chaque terme dans le document dans le dictionnaire term_positions sous forme:  {token : [list_positions]}
+On met à jour l'index positionnel avec les informations du document actuel en parcourant les éléments du dictionnaire term_positions: positional_index[token][doc_id]["position"] = list_positions
 
-**Pour la construction de l'index content**
+**BONUS: Pour la construction de l'index content**
 
 Dans la fonction run(), après avoir contruit l'index pour les titres, on a ajoute un bloc de code qui ressemble celui précédent en changant justement le nom de colonne en 'tokens_content' pour créer une nouvelle colonne 'tokens_content_filtered'. 
 Maintenant la construction de l'index est faite en modifiant le paramètre 'type' de la fonction create_index(). Par défaut, type = title, maintenant en mettant type='content' et col_name= 'tokens_content_filtered', on a réussi à refaire les mêmes étapes. Les index sont enregistrés dans content.non_pos_index.json, content.pos_index or mon_stemmer.content.non_pos_index.json
